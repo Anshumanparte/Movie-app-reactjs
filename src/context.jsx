@@ -2,7 +2,7 @@ import React from 'react';
 import { useState , useContext , useEffect } from 'react';
 const AppContext = React.createContext();
 
-const API_URL = `http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}`;
+export const API_URL = `http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}`;
 
 
 
@@ -17,6 +17,8 @@ const AppProvider = ({ children }) => {
 
 
     const getMovies = async (url) => {
+        setIsLoading(true);
+        setIsError({show: false, msg: ""});
     try{
         const res = await fetch(url);
         const data = await res.json();
@@ -37,7 +39,13 @@ const AppProvider = ({ children }) => {
 
 
     useEffect(()=>{
-        getMovies(`${API_URL}&s=${query}`);
+        let timerOut = setTimeout(()=>{
+            getMovies(`${API_URL}&s=${query}`);
+
+        },1000)
+
+        return () => clearTimeout(timerOut);
+        
     },[query])
 
 

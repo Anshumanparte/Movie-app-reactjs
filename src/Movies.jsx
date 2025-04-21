@@ -5,7 +5,13 @@ import 'aos/dist/aos.css';
 import { useEffect } from "react";
 
 const Movies = () => {
-  const { movie } = useGlobalContext();
+  const { movie, isLoading } = useGlobalContext();
+
+  if(isLoading){
+    return (
+    <div className="loading p-5 flex justify-center items-start min-h-screen text-white">Loading...</div>
+  )
+  }
 
   useEffect(() => {
     AOS.init({
@@ -15,6 +21,7 @@ const Movies = () => {
     });
   }, []);
 
+  
   return (
     <section className="movie-page px-8 py-12 min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
